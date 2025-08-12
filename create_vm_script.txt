@@ -1,0 +1,29 @@
+VBoxManage createvm --name "CLI-Xubuntu" --ostype Ubuntu_64 --register
+
+VBoxManage modifyvm "CLI-Xubuntu" --memory 2048 --cpus 2 --vram 128 --nic1 nat --nictype1 virtio
+
+VBoxManage createhd --filename "C:/Users/chiao/Documents/VirtualBox/VM/INT693/A4/a4.vdi" --size 20000
+
+VBoxManage storagectl "CLI-Xubuntu" --name "SATA Controller" --add sata --controller IntelAHCI
+
+VBoxManage storageattach "CLI-Xubuntu" --storagectl "SATA Controller" --port 0 --device 0 --type dvddrive --medium "C:/Users/chiao/Documents/VirtualBox/xubuntu-22.04.5-desktop-amd64.iso"
+
+VBoxManage storageattach "CLI-Xubuntu" --storagectl "SATA Controller" --port 1 --device 0 --type hdd --medium "C:/Users/chiao/Documents/VirtualBox/VM/INT693/A4/a4.vdi"
+
+VBoxManage modifyvm "CLI-Xubuntu" --nested-hw-virt on --pae on --nestedpaging on --graphicscontroller vmsvga --vrde on --vrdeport 6110 --boot1 dvd --boot2 disk --boot3 none --boot4 none
+
+VBoxManage startvm "CLI-Xubuntu" --type headless
+
+VBoxManage list vms
+
+VBoxManage showvminfo "CLI-Xubuntu"
+
+VBoxManage snapshot "CLI-Xubuntu" take "init vm"
+
+VBoxManage export "CLI-Xubuntu" --output "C:/Users/chiao/Documents/VirtualBox/VM/INT693/A4/a4.ova"
+
+VBoxManage clonevm "CLI-Xubuntu" --name "CLI-Xubuntu-Clone" --register
+
+VBoxManage modifyvm "CLI-Xubuntu" --accelerate3d on
+
+VBoxManage modifyvm "CLI-Xubuntu-Clone" --accelerate3d on
